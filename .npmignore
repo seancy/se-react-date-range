@@ -1,6 +1,4 @@
 
 .node_modules/
-src/
-dist/index.*
-
+.idea/
 

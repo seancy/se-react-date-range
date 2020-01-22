@@ -22,6 +22,8 @@ class DateRange extends React.Component {
             value: moment.range(today.clone().subtract(7, "days"), today.clone())
         };
 
+        this.myRef = React.createRef();
+
         document.addEventListener("click", this.hidePanel.bind(this), true);
     }
 
@@ -30,7 +32,10 @@ class DateRange extends React.Component {
     };
 
     hidePanel = e => {
-        const dateRangePicker = ReactDOM.findDOMNode(this.refs.dateRangePicker);
+        if (!this.myRef.current){
+            return;
+        }
+        const dateRangePicker = ReactDOM.findDOMNode(this.myRef.current);
         if (dateRangePicker && dateRangePicker.contains(e.target) && this.container !== e.target) {
             return;
         }
@@ -54,7 +59,7 @@ class DateRange extends React.Component {
             <div className="labels">
                 <label>Last </label>
                 {days.map(number=>{
-                    return (<span onClick={this.setDateRange.bind(this, number)} className={"days-"+number}>{number} days</span>)
+                    return (<span key={number} onClick={this.setDateRange.bind(this, number)} className={"days-"+number}>{number} days</span>)
                 })}
             </div>
         )
@@ -63,7 +68,7 @@ class DateRange extends React.Component {
     renderSelectionValue = () => {
         return (
             <div className="box-container" onClick={this.onToggle}>
-                <Icon/>
+                {/*<Icon/>*/}
                 <input
                     className="start-date"
                     name={this.props.startDateName}
@@ -82,12 +87,12 @@ class DateRange extends React.Component {
 
     render() {
         return (
-            <div className="date-range-selector">
+            <div className={'date-range-selector ' + (this.props.className || '')}>
                 {this.renderLabels()}
                 {this.renderSelectionValue()}
                 {this.state.isOpen && (
                     <DateRangePicker className="date-range-picker"
-                                     ref="dateRangePicker"
+                                     ref={this.myRef}
                                      value={this.state.value}
                                      onSelect={this.onSelect}
                                      singleDateRange={true}
@@ -97,6 +102,10 @@ class DateRange extends React.Component {
         );
     }
 }
+
+/*let DateRange = function () {
+    return (<div>Here is date range...</div>)
+}*/
 
 export default DateRange;
 

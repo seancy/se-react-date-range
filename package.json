@@ -1,24 +1,29 @@
 {
   "name": "se-react-date-range",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.16",
   "main": "dist/dateRange.js",
   "scripts": {
     "start": "webpack-dev-server",
     "build": "webpack --mode production",
+    "dev": "webpack --mode development",
+    "transpile": "babel src -d dist  --copy-files",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Sean",
   "license": "ISC",
   "devDependencies": {
+    "@babel/cli": "^7.8.3",
     "@babel/core": "^7.8.3",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-transform-react-jsx": "^7.8.3",
+    "@babel/plugin-transform-spread": "^7.8.3",
     "@babel/preset-env": "^7.8.3",
     "@babel/preset-react": "^7.8.3",
     "@svgr/webpack": "^5.0.1",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.4.2",
     "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.9.0",
     "node-sass": "^4.13.1",
     "path": "^0.12.7",
     "sass-loader": "^8.0.2",
@@ -27,11 +32,29 @@
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.1"
   },
-  "dependencies": {
+  "peerDependencies": {
     "react": "^16.12.0",
-    "react-dom": "^16.12.0",
+    "react-dom": "^16.12.0"
+  },
+  "dependencies": {
     "moment": "^2.24.0",
     "moment-range": "^4.0.2",
-    "react-daterange-picker": "^2.0.1"
-  }
+    "react": "^16.12.0",
+    "react-daterange-picker": "^2.0.1",
+    "react-dom": "^16.12.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seancy/se-react-date-range.git"
+  },
+  "keywords": [
+    "react",
+    "date",
+    "range"
+  ],
+  "bugs": {
+    "url": "https://github.com/seancy/se-react-date-range/issues"
+  },
+  "homepage": "https://github.com/seancy/se-react-date-range#readme",
+  "description": "scope element dropdown DateEange"
 }
