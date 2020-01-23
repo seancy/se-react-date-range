@@ -68,7 +68,7 @@ class DateRange extends React.Component {
     renderSelectionValue = () => {
         return (
             <div className="box-container" onClick={this.onToggle}>
-                {/*<Icon/>*/}
+                <Icon/>
                 <input
                     className="start-date"
                     name={this.props.startDateName}
