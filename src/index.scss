@@ -13,6 +13,11 @@ $space-between-rows: 5px;
       font-size: 14px;
     }
 
+
+    $color-dark: #000;
+    $color-light: #fff;
+    $bg-size-end: 4.2;
+
     span {
       list-style: none;
       display: inline-block;
@@ -25,8 +30,14 @@ $space-between-rows: 5px;
 
       &:not(:last-child) {
         margin-right: 5px;
-
       }
+
+      &:active{
+        &:after {
+          transform: scale(4);
+        }
+      }
+
     }
 
   }
@@ -34,6 +45,7 @@ $space-between-rows: 5px;
   .box-container {
     padding-bottom: $space-between-rows;
     cursor: pointer;
+    text-align: left;
 
     svg {
       width: 18px;

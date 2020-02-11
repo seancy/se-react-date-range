@@ -11,7 +11,7 @@ import Icon from './calendar-alt-regular.svg'
 const moment = extendMoment(originalMoment);
 
 
-class DateRange extends React.Component {
+class Component extends React.Component {
     constructor(props, context) {
         super(props, context);
 
@@ -27,8 +27,13 @@ class DateRange extends React.Component {
         document.addEventListener("click", this.hidePanel.bind(this), true);
     }
 
-    onSelect = (value, states) => {
-        this.setState({value, states});
+    onSelect = (value) => {
+        this.setState({value}, ()=>{
+            const {onChange}=this.props
+            const startDate = this.state.value.start.format(this.props.dateFormat || 'YYYY-MM-DD')
+            const endDate = this.state.value.start.format(this.props.dateFormat || 'YYYY-MM-DD')
+            onChange && onChange(startDate,endDate)
+        });
     };
 
     hidePanel = e => {
@@ -57,7 +62,7 @@ class DateRange extends React.Component {
         const days = [7,30,90]
         return (
             <div className="labels">
-                <label>Last </label>
+                <label>{this.props.label || "Last"}</label>
                 {days.map(number=>{
                     return (<span key={number} onClick={this.setDateRange.bind(this, number)} className={"days-"+number}>{number} days</span>)
                 })}
@@ -66,20 +71,22 @@ class DateRange extends React.Component {
     }
 
     renderSelectionValue = () => {
+        const {dateFormat}=this.props
         return (
             <div className="box-container" onClick={this.onToggle}>
                 <Icon/>
                 <input
                     className="start-date"
-                    name={this.props.startDateName}
-                    //onChange={this.updateStart.bind(this)}
-                    value={this.state.value.start.format("YYYY-MM-DD")}
+                    name={this.props.startDateName || ''}
+                    onChange={()=>{}}
+                    value={this.state.value.start.format(dateFormat)}
                 />
                 {" - "}
                 <input
-                    name={this.props.endDateName}
+                    name={this.props.endDateName || ''}
                     className="start-date"
-                    value={this.state.value.end.format("YYYY-MM-DD")}
+                    onChange={()=>{}}
+                    value={this.state.value.end.format(dateFormat)}
                 />
             </div>
         );
@@ -103,9 +110,5 @@ class DateRange extends React.Component {
     }
 }
 
-/*let DateRange = function () {
-    return (<div>Here is date range...</div>)
-}*/
-
-export default DateRange;
+export default Component;
 

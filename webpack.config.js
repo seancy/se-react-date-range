@@ -5,7 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 module.exports = {
     entry: {
         index:'./src/index.js',
-        dateRange:'./src/DateRange.js'
+        dateRange:'./src/component.js'
     },
     output:{
         path: path.resolve(__dirname, 'dist'),
@@ -13,6 +13,7 @@ module.exports = {
         //libraryExport:'DateRange',
         //libraryTarget: 'commonjs2'
     },
+    devtool: 'source-map',
     module:{
         rules:[
             {
@@ -55,9 +56,6 @@ module.exports = {
             watchContentBase: true,
             poll: true
         }
-    },
-    externals: {
-        //'react': 'commonjs react'
     },
     plugins:[
         new MiniCssExtractPlugin(),

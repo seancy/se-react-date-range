@@ -1,6 +1,6 @@
 import React from "react";
 import { render } from "react-dom";
-import DateRange from "./DateRange";
+import Component from "./component";
 
 const styles = {
   fontFamily: "sans-serif",
@@ -9,7 +9,10 @@ const styles = {
 
 const App = () => (
   <div style={styles}>
-    <DateRange startDateName="start1" endDateName="end1" />
+    <Component startDateName="start1" endDateName="end1"
+               dateFormat="YYYY-MM-DD"
+               onChange={console.log}
+               label="Select a time range， Last" />
   </div>
 );
 

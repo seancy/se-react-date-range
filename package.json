@@ -1,7 +1,7 @@
 {
   "name": "se-react-date-range",
-  "version": "1.0.16",
-  "main": "dist/dateRange.js",
+  "version": "1.0.22",
+  "main": "dist/component.js",
   "scripts": {
     "start": "webpack-dev-server",
     "build": "webpack --mode production",
