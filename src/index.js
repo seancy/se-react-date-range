@@ -10,7 +10,9 @@ const styles = {
 const App = () => (
   <div style={styles}>
     <Component startDateName="start1" endDateName="end1"
-               dateFormat="YYYY-MM-DD"
+               //dateFormat="YYYY-MM-DD"
+        startDate={'2020-3-20'}
+        endDate={'2020-3-25'}
                onChange={console.log}
                label="Select a time range， Last" />
   </div>

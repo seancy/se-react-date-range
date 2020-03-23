@@ -1,9 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import PropTypes from 'prop-types'
 
 import DateRangePicker from "react-daterange-picker";
 import "react-daterange-picker/dist/css/react-calendar.css";
-import "./index.scss"
+import "./component.scss"
 import originalMoment from "moment";
 import {extendMoment} from "moment-range";
 import Icon from './calendar-alt-regular.svg'
@@ -12,14 +13,20 @@ const moment = extendMoment(originalMoment);
 
 
 class Component extends React.Component {
+    DEFAULT_DATE_FORMAT = 'YYYY-MM-DD'
+
     constructor(props, context) {
         super(props, context);
 
-        const today = moment();
+        const today = moment().clone();
+
+        const {startDate, endDate}=props
 
         this.state = {
             isOpen: false,
-            value: moment.range(today.clone().subtract(7, "days"), today.clone())
+            value: moment.range(
+                startDate || today.subtract(7, "days"),
+                endDate || today)
         };
 
         this.myRef = React.createRef();
@@ -27,14 +34,23 @@ class Component extends React.Component {
         document.addEventListener("click", this.hidePanel.bind(this), true);
     }
 
+    componentDidMount() {
+        const {startDate, endDate}=this.props
+        if (startDate != '' || endDate != ''){
+            this.fireOnChange()
+        }
+    }
+
     onSelect = (value) => {
-        this.setState({value}, ()=>{
-            const {onChange}=this.props
-            const startDate = this.state.value.start.format(this.props.dateFormat || 'YYYY-MM-DD')
-            const endDate = this.state.value.start.format(this.props.dateFormat || 'YYYY-MM-DD')
-            onChange && onChange(startDate,endDate)
-        });
+        this.setState({value}, this.fireOnChange.bind(this));
     };
+
+    fireOnChange(){
+        const {onChange}=this.props
+        const startDate = this.state.value.start.format(this.props.dateFormat || this.DEFAULT_DATE_FORMAT)
+        const endDate = this.state.value.end.format(this.props.dateFormat || this.DEFAULT_DATE_FORMAT)
+        onChange && onChange(startDate,endDate)
+    }
 
     hidePanel = e => {
         if (!this.myRef.current){
@@ -55,7 +71,7 @@ class Component extends React.Component {
         const today = moment();
         this.setState({
             value: moment.range(today.clone().subtract(number, "days"), today.clone())
-        })
+        }, this.fireOnChange.bind(this))
     }
 
     renderLabels = () => {
@@ -79,14 +95,14 @@ class Component extends React.Component {
                     className="start-date"
                     name={this.props.startDateName || ''}
                     onChange={()=>{}}
-                    value={this.state.value.start.format(dateFormat)}
+                    value={this.state.value.start.format(dateFormat || this.DEFAULT_DATE_FORMAT)}
                 />
                 {" - "}
                 <input
                     name={this.props.endDateName || ''}
                     className="start-date"
                     onChange={()=>{}}
-                    value={this.state.value.end.format(dateFormat)}
+                    value={this.state.value.end.format(dateFormat || this.DEFAULT_DATE_FORMAT)}
                 />
             </div>
         );
@@ -111,4 +127,11 @@ class Component extends React.Component {
 }
 
 export default Component;
+
+Component.propTypes = {
+    startDate:PropTypes.string,
+    endDate:PropTypes.string,
+    label:PropTypes.string,
+    onChange:PropTypes.func,
+}
 
