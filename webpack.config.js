@@ -1,26 +1,25 @@
-
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 module.exports = {
     entry: {
-        index:'./src/index.js',
-        dateRange:'./src/component.js'
+        index: './src/index.js',
+        dateRange: './src/component.js'
     },
-    output:{
+    output: {
         path: path.resolve(__dirname, 'dist'),
-        filename:'[name].js',
+        filename: '[name].js',
         //libraryExport:'DateRange',
         //libraryTarget: 'commonjs2'
     },
     devtool: 'source-map',
-    module:{
-        rules:[
+    module: {
+        rules: [
             {
                 test: /\.(js|jsx)$/,
                 exclude: /(node_modules|build)/,
-                use:{
-                    loader:'babel-loader'
+                use: {
+                    loader: 'babel-loader'
                 }
             },
             {
@@ -48,7 +47,7 @@ module.exports = {
             },
         ]
     },
-    devServer:{
+    devServer: {
         port: 8081,
         contentBase: path.join(__dirname, 'dist'),
         watchOptions: {
@@ -57,8 +56,8 @@ module.exports = {
             poll: true
         }
     },
-    plugins:[
+    plugins: [
         new MiniCssExtractPlugin(),
-        new HtmlWebpackPlugin({template:'./src/index.html'})
+        new HtmlWebpackPlugin({template: './src/index.html'})
     ]
 }

@@ -17,16 +17,15 @@ class Component extends React.Component {
 
     constructor(props, context) {
         super(props, context);
-
-        const today = moment().clone();
-
-        const {startDate, endDate}=props
-
+        const {startDate='', endDate=''}=props
         this.state = {
             isOpen: false,
-            value: moment.range(
+            startDate,
+            endDate
+
+            /*value: moment.range(
                 startDate || today.subtract(7, "days"),
-                endDate || today)
+                endDate || today)*/
         };
 
         this.myRef = React.createRef();
@@ -34,21 +33,26 @@ class Component extends React.Component {
         document.addEventListener("click", this.hidePanel.bind(this), true);
     }
 
-    componentDidMount() {
-        const {startDate, endDate}=this.props
+    UNSAFE_componentWillMount() {
+        const {startDate='', endDate=''}=this.props
         if (startDate != '' || endDate != ''){
             this.fireOnChange()
         }
     }
 
     onSelect = (value) => {
-        this.setState({value}, this.fireOnChange.bind(this));
+        this.setState({
+            //value
+            startDate: value.start.format('YYYY-MM-DD'),
+            endDate: value.end.format('YYYY-MM-DD')
+        }, this.fireOnChange.bind(this));
     };
 
     fireOnChange(){
         const {onChange}=this.props
-        const startDate = this.state.value.start.format(this.props.dateFormat || this.DEFAULT_DATE_FORMAT)
-        const endDate = this.state.value.end.format(this.props.dateFormat || this.DEFAULT_DATE_FORMAT)
+        const {startDate, endDate}=this.state
+        //const startDate = this.state.value.start.format(this.props.dateFormat || this.DEFAULT_DATE_FORMAT)
+        //const endDate = this.state.value.end.format(this.props.dateFormat || this.DEFAULT_DATE_FORMAT)
         onChange && onChange(startDate,endDate)
     }
 
@@ -70,7 +74,9 @@ class Component extends React.Component {
     setDateRange=(number)=>{
         const today = moment();
         this.setState({
-            value: moment.range(today.clone().subtract(number, "days"), today.clone())
+            startDate:today.clone().subtract(number, "days").format(this.DEFAULT_DATE_FORMAT),
+            endDate:today.clone().format(this.DEFAULT_DATE_FORMAT)
+            //value: moment.range(today.clone().subtract(number, "days"), today.clone())
         }, this.fireOnChange.bind(this))
     }
 
@@ -87,28 +93,38 @@ class Component extends React.Component {
     }
 
     renderSelectionValue = () => {
-        const {dateFormat}=this.props
+        //const {dateFormat}=this.props
         return (
             <div className="box-container" onClick={this.onToggle}>
-                <Icon/>
+                {/*<Icon className="ssss"/>*/}
                 <input
                     className="start-date"
                     name={this.props.startDateName || ''}
-                    onChange={()=>{}}
-                    value={this.state.value.start.format(dateFormat || this.DEFAULT_DATE_FORMAT)}
+                    onChange={e=>this.setState({startDate:e.target.value})}
+                    //.value.start.format(dateFormat || this.DEFAULT_DATE_FORMAT)
+                    value={this.state.startDate}
                 />
                 {" - "}
                 <input
                     name={this.props.endDateName || ''}
-                    className="start-date"
-                    onChange={()=>{}}
-                    value={this.state.value.end.format(dateFormat || this.DEFAULT_DATE_FORMAT)}
+                    className="end-date"
+                    onChange={e=>this.setState({endDate:e.target.value})}
+                    //value.end.format(dateFormat || this.DEFAULT_DATE_FORMAT)
+                    value={this.state.endDate}
                 />
             </div>
         );
     };
 
+
     render() {
+        const getMixedDateValue = ()=>{
+            const today = moment().clone();
+            const {startDate,endDate}=this.state
+            return moment.range(
+                    startDate || today.subtract(7, "days"),
+                    endDate || today)
+        }
         return (
             <div className={'date-range-selector ' + (this.props.className || '')}>
                 {this.renderLabels()}
@@ -116,7 +132,7 @@ class Component extends React.Component {
                 {this.state.isOpen && (
                     <DateRangePicker className="date-range-picker"
                                      ref={this.myRef}
-                                     value={this.state.value}
+                                     value={getMixedDateValue()}
                                      onSelect={this.onSelect}
                                      singleDateRange={true}
                     />
