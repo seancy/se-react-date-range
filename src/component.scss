@@ -9,31 +9,24 @@ $space-between-rows: 5px;
     margin: 0;
     text-align: left;
 
-    label {
-      padding: 3px 5px;
-      font-size: 14px;
-    }
-
-
     $color-dark: #000;
     $color-light: #fff;
     $bg-size-end: 4.2;
 
-    span {
+    .day {
       list-style: none;
       display: inline-block;
-      background-color: grey;
+      background-color: lightgray;
       border-radius: 8px;
       padding: 3px 5px;
       font-size: 12px;
       cursor: pointer;
 
-
       &:not(:last-child) {
         margin-right: 5px;
       }
 
-      &:active{
+      &:active {
         &:after {
           transform: scale(4);
         }

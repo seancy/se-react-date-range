@@ -22,10 +22,6 @@ class Component extends React.Component {
             isOpen: false,
             startDate,
             endDate
-
-            /*value: moment.range(
-                startDate || today.subtract(7, "days"),
-                endDate || today)*/
         };
 
         this.myRef = React.createRef();
@@ -84,9 +80,12 @@ class Component extends React.Component {
         const days = [7,30,90]
         return (
             <div className="labels">
-                <label>{this.props.label || "Last"}</label>
                 {days.map(number=>{
-                    return (<span key={number} onClick={this.setDateRange.bind(this, number)} className={"days-"+number}>{number} days</span>)
+                    const {label}=this.props
+                    return (<span className="day">
+                        {label && <label>{this.props.label}</label>}
+                        <span key={number} onClick={this.setDateRange.bind(this, number)} className={"days-"+number}>{number} days</span>
+                    </span>)
                 })}
             </div>
         )
