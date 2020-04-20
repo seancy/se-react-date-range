@@ -20,6 +20,7 @@ class Component extends React.Component {
         const {startDate='', endDate=''}=props
         this.state = {
             isOpen: false,
+            activeButton:'',
             startDate,
             endDate
         };
@@ -67,9 +68,10 @@ class Component extends React.Component {
         this.setState({isOpen: !this.state.isOpen});
     };
 
-    setDateRange=(number)=>{
+    setDateRange=(number, activeButton)=>{
         const today = moment();
         this.setState({
+            activeButton,
             startDate:today.clone().subtract(number, "days").format(this.DEFAULT_DATE_FORMAT),
             endDate:today.clone().format(this.DEFAULT_DATE_FORMAT)
             //value: moment.range(today.clone().subtract(number, "days"), today.clone())
@@ -82,9 +84,10 @@ class Component extends React.Component {
             <div className="labels">
                 <span className="label">{this.props.label}</span>
                 {days.map(number=>{
-                    const {buttonBegin}=this.props
-                    return (<span key={number} onClick={this.setDateRange.bind(this, number)}
-                                  className={"day days-"+number}>{(buttonBegin || '') + number + ' days'} </span>)
+                    const {buttonBegin}=this.props, {activeButton}=this.state, classNameStr = "days-"+number
+                    return (<span key={number} onClick={this.setDateRange.bind(this, number, classNameStr)}
+                                  className={`day ${classNameStr}${activeButton==classNameStr?' active':''}`}
+                    >{(buttonBegin || '') + number + ' days'} </span>)
                 })}
             </div>
         )
@@ -92,13 +95,14 @@ class Component extends React.Component {
 
     renderSelectionValue = () => {
         //const {dateFormat}=this.props
+        const activeButton = ''
         return (
             <div className="box-container" onClick={this.onToggle}>
                 <Icon className="calendar-icon"/>
                 <input
                     className="start-date"
                     name={this.props.startDateName || ''}
-                    onChange={e=>this.setState({startDate:e.target.value})}
+                    onChange={e=>this.setState({startDate:e.target.value, activeButton})}
                     //.value.start.format(dateFormat || this.DEFAULT_DATE_FORMAT)
                     value={this.state.startDate}
                 />
@@ -106,7 +110,7 @@ class Component extends React.Component {
                 <input
                     name={this.props.endDateName || ''}
                     className="end-date"
-                    onChange={e=>this.setState({endDate:e.target.value})}
+                    onChange={e=>this.setState({endDate:e.target.value, activeButton})}
                     //value.end.format(dateFormat || this.DEFAULT_DATE_FORMAT)
                     value={this.state.endDate}
                 />
@@ -146,6 +150,7 @@ Component.propTypes = {
     startDate:PropTypes.string,
     endDate:PropTypes.string,
     label:PropTypes.string,
+    buttonBegin:PropTypes.string,
     onChange:PropTypes.func,
 }
 
