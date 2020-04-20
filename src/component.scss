@@ -13,13 +13,20 @@ $space-between-rows: 5px;
     $color-light: #fff;
     $bg-size-end: 4.2;
 
+    .label, .day {
+      font-size: 14px;
+    }
+
+    .label {
+      padding-right: 10px;
+    }
+
     .day {
       list-style: none;
       display: inline-block;
       background-color: lightgray;
       border-radius: 8px;
       padding: 3px 5px;
-      font-size: 12px;
       cursor: pointer;
 
       &:not(:last-child) {

@@ -80,12 +80,11 @@ class Component extends React.Component {
         const days = [7,30,90]
         return (
             <div className="labels">
+                <span className="label">{this.props.label}</span>
                 {days.map(number=>{
-                    const {label}=this.props
-                    return (<span className="day">
-                        {label && <label>{this.props.label}</label>}
-                        <span key={number} onClick={this.setDateRange.bind(this, number)} className={"days-"+number}>{number} days</span>
-                    </span>)
+                    const {buttonBegin}=this.props
+                    return (<span key={number} onClick={this.setDateRange.bind(this, number)}
+                                  className={"day days-"+number}>{(buttonBegin || '') + number + ' days'} </span>)
                 })}
             </div>
         )
@@ -95,7 +94,7 @@ class Component extends React.Component {
         //const {dateFormat}=this.props
         return (
             <div className="box-container" onClick={this.onToggle}>
-                {/*<Icon className="ssss"/>*/}
+                <Icon className="calendar-icon"/>
                 <input
                     className="start-date"
                     name={this.props.startDateName || ''}

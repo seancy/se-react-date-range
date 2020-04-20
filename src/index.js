@@ -9,8 +9,9 @@ const App = () => (
         /*startDate='2020-3-20'
         endDate='2020-3-25'*/
                onChange={console.log}
-               //Select a time range， last
-               label="Last "/>
+        //Select a time range， last
+               label="Select a time range"
+               buttonBegin="Last "/>
 );
 
 render(<App/>, document.querySelector(".root"));
