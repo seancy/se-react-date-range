@@ -10,6 +10,7 @@ const App = () => (
         endDate='2020-3-25'*/
                onChange={console.log}
         //Select a time range， last
+        useFontAwesome={true}
                label="Select a time range"
                buttonBegin="Last "/>
 );

@@ -94,11 +94,12 @@ class Component extends React.Component {
     }
 
     renderSelectionValue = () => {
-        //const {dateFormat}=this.props
+        const {useFontAwesome}=this.props
         const activeButton = ''
+        const CalendarIcon = useFontAwesome ? ()=><i className="fal fa-calendar-alt calendar-icon"/> : ()=><Icon className="calendar-icon"/>;
         return (
             <div className="box-container" onClick={this.onToggle}>
-                <Icon className="calendar-icon"/>
+                <CalendarIcon/>
                 <input
                     className="start-date"
                     name={this.props.startDateName || ''}
