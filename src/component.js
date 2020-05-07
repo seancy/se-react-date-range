@@ -79,10 +79,10 @@ class Component extends React.Component {
     }
 
     renderLabels = () => {
-        const days = [7,30,90]
+        const days = [7,30,90], {label}=this.props
         return (
             <div className="labels">
-                <span className="label">{this.props.label}</span>
+                {label && <span className="label">{label}</span>}
                 {days.map(number=>{
                     const {buttonBegin}=this.props, {activeButton}=this.state, classNameStr = "days-"+number
                     return (<span key={number} onClick={this.setDateRange.bind(this, number, classNameStr)}
@@ -93,9 +93,18 @@ class Component extends React.Component {
         )
     }
 
+    setStartDate(e){
+        const activeButton = '', startDate = e.target.value
+        this.setState({startDate, activeButton}, this.fireOnChange.bind(this))
+    }
+    setEndDate(e){
+        const activeButton = ''
+        this.setState({endDate:e.target.value, activeButton}, this.fireOnChange.bind(this))
+    }
+
     renderSelectionValue = () => {
         const {useFontAwesome}=this.props
-        const activeButton = ''
+
         const CalendarIcon = useFontAwesome ? ()=><i className="fal fa-calendar-alt calendar-icon"/> : ()=><Icon className="calendar-icon"/>;
         return (
             <div className="box-container" onClick={this.onToggle}>
@@ -103,7 +112,7 @@ class Component extends React.Component {
                 <input
                     className="start-date"
                     name={this.props.startDateName || ''}
-                    onChange={e=>this.setState({startDate:e.target.value, activeButton})}
+                    onChange={this.setStartDate.bind(this)}
                     //.value.start.format(dateFormat || this.DEFAULT_DATE_FORMAT)
                     value={this.state.startDate}
                 />
@@ -111,7 +120,7 @@ class Component extends React.Component {
                 <input
                     name={this.props.endDateName || ''}
                     className="end-date"
-                    onChange={e=>this.setState({endDate:e.target.value, activeButton})}
+                    onChange={this.setEndDate.bind(this)}
                     //value.end.format(dateFormat || this.DEFAULT_DATE_FORMAT)
                     value={this.state.endDate}
                 />
@@ -123,9 +132,9 @@ class Component extends React.Component {
     render() {
         const getMixedDateValue = ()=>{
             const today = moment().clone();
-            const {startDate,endDate}=this.state
+            let {startDate,endDate}=this.state
             return moment.range(
-                    startDate || today.subtract(7, "days"),
+                    Date.parse(startDate) ? startDate : today.subtract(7, "days"),
                     endDate || today)
         }
         return (

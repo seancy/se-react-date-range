@@ -1,6 +1,6 @@
 {
   "name": "se-react-date-range",
-  "version": "1.0.35",
+  "version": "1.0.39",
   "main": "dist/component.js",
   "scripts": {
     "start": "webpack-dev-server",
