@@ -26,6 +26,7 @@ class Component extends React.Component {
         };
 
         this.myRef = React.createRef();
+        this.fireOnChange = this.fireOnChange.bind(this)
 
         document.addEventListener("click", this.hidePanel.bind(this), true);
     }
@@ -42,7 +43,7 @@ class Component extends React.Component {
             //value
             startDate: value.start.format('YYYY-MM-DD'),
             endDate: value.end.format('YYYY-MM-DD')
-        }, this.fireOnChange.bind(this));
+        }, this.fireOnChange);
     };
 
     fireOnChange(){
@@ -74,8 +75,7 @@ class Component extends React.Component {
             activeButton,
             startDate:today.clone().subtract(number, "days").format(this.DEFAULT_DATE_FORMAT),
             endDate:today.clone().format(this.DEFAULT_DATE_FORMAT)
-            //value: moment.range(today.clone().subtract(number, "days"), today.clone())
-        }, this.fireOnChange.bind(this))
+        }, this.fireOnChange)
     }
 
     renderLabels = () => {
@@ -95,18 +95,18 @@ class Component extends React.Component {
 
     setStartDate(e){
         const activeButton = '', startDate = e.target.value
-        this.setState({startDate, activeButton}, this.fireOnChange.bind(this))
+        this.setState({startDate, activeButton}, this.fireOnChange)
     }
     setEndDate(e){
         const activeButton = ''
-        this.setState({endDate:e.target.value, activeButton}, this.fireOnChange.bind(this))
+        this.setState({endDate:e.target.value, activeButton}, this.fireOnChange)
     }
 
     resetDate(e){
         this.setState({
             startDate:'',
             endDate:''
-        })
+        }, this.fireOnChange)
         e.preventDefault()
         e.stopPropagation()
         return false;
