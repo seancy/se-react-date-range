@@ -5,6 +5,23 @@ import DateRange from '../src/component'
 
 afterEach(cleanup)
 
+it('reset text', () => {
+    //let startDate = '', endDate=''
+    //const START_DATE = '2020-3-20', END_DATE='2020-3-25'
+    const resetText='test0'
+
+    const renderResult = render(<DateRange
+        resetText={resetText}
+           //startDate={START_DATE} endDate={END_DATE}
+           //onChange={(s, e)=>{ startDate=s; endDate=e }}
+    />)
+    /*expect(startDate).toBe(START_DATE)
+    expect(endDate).toBe(END_DATE)*/
+
+    const {getByText} = renderResult
+    expect(getByText(resetText)).toBeInTheDocument()
+})
+
 it('default startDate and endDate', () => {
     let startDate = '', endDate=''
     const START_DATE = '2020-3-20', END_DATE='2020-3-25'
@@ -17,8 +34,8 @@ it('default startDate and endDate', () => {
 })
 
 it('label and buttonBegin attribute', () => {
-    const LABEL_TEXT = 'Select a time range', BUTTON_BEGIN_TEXT = 'Last '
-    const renderResult = render(<DateRange label={LABEL_TEXT} buttonBegin={BUTTON_BEGIN_TEXT}/>)
+    const LABEL_TEXT = 'Select a time range', BUTTON_TEXT = 'Last * days'
+    const renderResult = render(<DateRange label={LABEL_TEXT} buttonText={BUTTON_TEXT}/>)
     const {getByText} = renderResult
     expect(getByText(LABEL_TEXT)).toBeInTheDocument()
     expect(getByText('Last 7 days')).toBeInTheDocument()

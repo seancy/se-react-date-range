@@ -84,10 +84,10 @@ class Component extends React.Component {
             <div className="labels">
                 {label && <span className="label">{label}</span>}
                 {days.map(number=>{
-                    const {buttonBegin}=this.props, {activeButton}=this.state, classNameStr = "days-"+number
+                    const {buttonText}=this.props, {activeButton}=this.state, classNameStr = "days-"+number
                     return (<span key={number} onClick={this.setDateRange.bind(this, number, classNameStr)}
                                   className={`day ${classNameStr}${activeButton==classNameStr?' active':''}`}
-                    >{(buttonBegin || '') + number + ' days'} </span>)
+                    >{(buttonText || '').replace('*', number)} </span>)
                 })}
             </div>
         )
@@ -102,8 +102,18 @@ class Component extends React.Component {
         this.setState({endDate:e.target.value, activeButton}, this.fireOnChange.bind(this))
     }
 
+    resetDate(e){
+        this.setState({
+            startDate:'',
+            endDate:''
+        })
+        e.preventDefault()
+        e.stopPropagation()
+        return false;
+    }
+
     renderSelectionValue = () => {
-        const {useFontAwesome}=this.props
+        const {useFontAwesome, resetText}=this.props
 
         const CalendarIcon = useFontAwesome ? ()=><i className="fal fa-calendar-alt calendar-icon"/> : ()=><Icon className="calendar-icon"/>;
         return (
@@ -124,6 +134,8 @@ class Component extends React.Component {
                     //value.end.format(dateFormat || this.DEFAULT_DATE_FORMAT)
                     value={this.state.endDate}
                 />
+                <input type="button" className="reset-date" value={resetText || 'Reset'}
+                       onClick={this.resetDate.bind(this)}/>
             </div>
         );
     };
@@ -159,8 +171,9 @@ export default Component;
 Component.propTypes = {
     startDate:PropTypes.string,
     endDate:PropTypes.string,
+    resetText:PropTypes.string,
     label:PropTypes.string,
-    buttonBegin:PropTypes.string,
+    buttonText:PropTypes.string,
     onChange:PropTypes.func,
 }
 
