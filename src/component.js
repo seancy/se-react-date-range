@@ -40,7 +40,7 @@ class Component extends React.Component {
 
     onSelect = (value) => {
         this.setState({
-            //value
+            activeButton:'',
             startDate: value.start.format('YYYY-MM-DD'),
             endDate: value.end.format('YYYY-MM-DD')
         }, this.fireOnChange);
@@ -48,10 +48,8 @@ class Component extends React.Component {
 
     fireOnChange(){
         const {onChange}=this.props
-        const {startDate, endDate}=this.state
-        //const startDate = this.state.value.start.format(this.props.dateFormat || this.DEFAULT_DATE_FORMAT)
-        //const endDate = this.state.value.end.format(this.props.dateFormat || this.DEFAULT_DATE_FORMAT)
-        onChange && onChange(startDate,endDate)
+        const {startDate, endDate, activeButton}=this.state
+        onChange && onChange(startDate,endDate, activeButton)
     }
 
     hidePanel = e => {
@@ -104,6 +102,7 @@ class Component extends React.Component {
 
     resetDate(e){
         this.setState({
+            activeButton:'',
             startDate:'',
             endDate:''
         }, this.fireOnChange)
@@ -113,7 +112,7 @@ class Component extends React.Component {
     }
 
     renderSelectionValue = () => {
-        const {useFontAwesome, resetText}=this.props
+        const {useFontAwesome}=this.props
 
         const CalendarIcon = useFontAwesome ? ()=><i className="fal fa-calendar-alt calendar-icon"/> : ()=><Icon className="calendar-icon"/>;
         return (
@@ -134,8 +133,7 @@ class Component extends React.Component {
                     //value.end.format(dateFormat || this.DEFAULT_DATE_FORMAT)
                     value={this.state.endDate}
                 />
-                <input type="button" className="reset-date" value={resetText || 'Reset'}
-                       onClick={this.resetDate.bind(this)}/>
+                <i className="fal fa-trash-alt reset-date" onClick={this.resetDate.bind(this)}></i>
             </div>
         );
     };
@@ -171,7 +169,6 @@ export default Component;
 Component.propTypes = {
     startDate:PropTypes.string,
     endDate:PropTypes.string,
-    resetText:PropTypes.string,
     label:PropTypes.string,
     buttonText:PropTypes.string,
     onChange:PropTypes.func,
