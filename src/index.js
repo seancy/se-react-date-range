@@ -11,6 +11,7 @@ const App = () => (
         //resetText={'test reset'}
         startDateName='start0'
         endDateName='end0'
+               activeButton={'days-30'}
                onChange={console.log}
         //Select a time range， last
         useFontAwesome={true}

@@ -17,10 +17,10 @@ class Component extends React.Component {
 
     constructor(props, context) {
         super(props, context);
-        const {startDate='', endDate=''}=props
+        const {startDate='', endDate='',activeButton=''}=props
         this.state = {
             isOpen: false,
-            activeButton:'',
+            activeButton:activeButton,
             startDate,
             endDate
         };
